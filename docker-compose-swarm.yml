@@ -1,0 +1,68 @@
+version: "3.3"
+services:
+  nginx:
+    image: todo-react
+    ports:
+      - "80:80"
+    depends_on:
+      - "zuul-service"
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  user-service:
+    image: user-service
+    restart: always
+    ports:
+      - "8088:8088"
+    depends_on:
+      - "config-service"
+      - "mysql"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  todo-service:
+    image: todo-service
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - "config-service"
+      - "mysql"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  zuul-service:
+    image: zuul-service
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "config-service"
+
+  config-service:
+    image: config-service
+    restart: on-failure
+    ports:
+      - "8888:8888"
+
+  mysql:
+    image: mysql
+    volumes:
+      - /Users/jhwang/Data-Mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      TZ: Asia/Shanghai
+    ports:
+      - "3307:3306"
+    restart: always

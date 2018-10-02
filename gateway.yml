@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  context-path: /api
+
+spring:
+  # cloud:
+  #   consul:
+  #     host: localhost
+  #     port: 8500
+  #     discovery:
+  #       health-check-path: /api/health
+  application:
+    name: gateway
+
+# todo-service:
+#   ribbon:
+#     listOfServers: localhost:8081,localhost:8082
+
+# user-service:
+#   ribbon:
+#     listOfServers: localhost:8088,localhost:8089
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    users:
+      path: /users/**
+      # serviceId: userService
+      url: http://localhost:8088
+      stripPrefix: false
+    todos:
+      path: /todos/** 
+      # serviceId: todoService
+      url: http://localhost:8081
+      stripPrefix: false
+    tags:
+      path: /tags/**
+      # serviceId: todoService
+      url: http://localhost:8081
+      stripPrefix: false
+    logout:
+      path: /logout
+      url: http://localhost:8088
+      stripPrefix: false
+  sensitiveHeaders:
+
+  hystrix:
+    command:
+      default:
+        execution:
+          isolation:
+            thread:
+              timeoutInMilliseconds: 15000
