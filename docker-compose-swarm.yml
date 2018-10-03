@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   nginx:
-    image: todo-react
+    image: morenbuou3/todo-react
     ports:
       - "80:80"
     depends_on:
@@ -11,7 +11,7 @@ services:
         condition: on-failure
 
   user-service:
-    image: user-service
+    image: morenbuou3/user-service
     restart: always
     ports:
       - "8088:8088"
@@ -27,7 +27,7 @@ services:
         condition: on-failure
 
   todo-service:
-    image: todo-service
+    image: morenbuou3/todo-service
     restart: always
     ports:
       - "8081:8081"
@@ -43,7 +43,7 @@ services:
         condition: on-failure
 
   zuul-service:
-    image: zuul-service
+    image: morenbuou3/zuul-service
     restart: always
     ports:
       - "8080:8080"
@@ -51,7 +51,7 @@ services:
       - "config-service"
 
   config-service:
-    image: config-service
+    image: morenbuou3/config-service
     restart: on-failure
     ports:
       - "8888:8888"
