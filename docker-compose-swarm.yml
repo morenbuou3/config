@@ -58,8 +58,8 @@ services:
 
   mysql:
     image: mysql
-    volumes:
-      - /Users/jhwang/Data-Mysql:/var/lib/mysql
+    # volumes:
+    #   - /Users/jhwang/Data-Mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 12345678
       TZ: Asia/Shanghai
